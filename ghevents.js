@@ -1,46 +1,43 @@
 'use strict';
 
-const GitHubApi = require('github');
-const through2 = require('through2');
+const GitHubApi = require('github')
+const through2 = require('through2')
 
 //GitHubApi Config
 const github = new GitHubApi({
   protocol: 'https',
   Promise: Promise,
   timeout: 5000,
-});
+})
 
 github.authenticate({
     type: "oauth",
     token: process.env.GH_TOKEN || ''
-});
+})
 
 let ghEventStream = through2.obj({objectMode:true}, function(chunk, encoding, cb){
-  this.push(chunk);
-  cb();
-});
+  this.push(chunk)
+  cb()
+})
 
-let wrapper = through2({objectMode:true},function(chunk, enc, cb){
+let transformStream = through2.obj({objectMode:true}, function(chunk, enc, cb){
   for(let entry of chunk) {
     this.push({
       type: entry.type,
       payload: entry.payload
-    });
-    console.log('----------')
+    })
   }
-  cb();
-});
-
-wrapper.on('data', function(data) {
-  console.log(data);
+  cb()
 })
 
 github.activity.getEvents({})
   .then(data => {
-    ghEventStream.write(data);
+    ghEventStream.write(data)
   })
   .catch(err => {
-    console.log(err);
+    console.log(err)
   });
 
-ghEventStream.pipe(wrapper);
+ghEventStream.pipe(transformStream)
+
+module.exports = transformStream
