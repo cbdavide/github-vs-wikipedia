@@ -11,7 +11,6 @@
   "dependencies": {
     "express": "^4.14.0",
     "github": "^3.1.1",
-    "sockjs": "^0.3.18",
     "through2": "^2.0.1",
     "websocket": "^1.0.23"
   }
