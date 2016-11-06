@@ -30,6 +30,13 @@ let transformStream = through2.obj({objectMode:true}, function(chunk, enc, cb){
   cb()
 })
 
+let delayStream = through2.obj({ objectMode: true }, function(ch, enc, cb){
+  setTimeout(() => {
+    this.push(ch)
+    cb()
+  }, 1000)
+})
+
 github.activity.getEvents({})
   .then(data => {
     ghEventStream.write(data)
@@ -38,6 +45,6 @@ github.activity.getEvents({})
     console.log(err)
   });
 
-ghEventStream.pipe(transformStream)
+ghEventStream.pipe(transformStream).pipe(delayStream)
 
-module.exports = transformStream
+module.exports = delayStream
