@@ -4,13 +4,14 @@ const http = require('http')
 const express = require('express')
 const ghStream = require('./ghevents')
 const io = require('socket.io')
+const path = require('path')
 
 const app = express()
 
 app.use(express.static('static'))
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/static/index.html')
+  res.sendFile(path.join(__dirname, '/static/index.html'))
 })
 
 const server = http.createServer(app)
@@ -23,6 +24,6 @@ ioServer.on('connection', (client) => {
   console.log(`${client.id} has connected`)
 
   ghStream.on('data', (data) => {
-    client.emit('gh', data);
+    client.emit('gh', data)
   })
 })
