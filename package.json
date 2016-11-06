@@ -4,7 +4,7 @@
   "description": "GitHub VS Wikipedia",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "standard"
   },
   "author": "David Castelblanco Benavides",
   "license": "MIT",
@@ -14,5 +14,8 @@
     "socket.io": "^1.5.1",
     "through2": "^2.0.1",
     "websocket": "^1.0.23"
+  },
+  "devDependencies": {
+    "standard": "^8.5.0"
   }
 }
