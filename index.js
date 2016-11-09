@@ -2,7 +2,7 @@
 
 const http = require('http')
 const express = require('express')
-const ghStream = require('./ghevents')
+const ghStream = require('./lib/ghevents')
 const io = require('socket.io')
 const path = require('path')
 
