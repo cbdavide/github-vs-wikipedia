@@ -30,15 +30,20 @@ let pos_y = ratio
 socket.on('gh', (data) => {
   console.log(data)
 
-  ctx.beginPath()
-  ctx.arc(pos_x, pos_y, ratio, 0, 2 * Math.PI, true)
-
-  if (pos_x < (WIDTH - ratio - 20)) {
-    pos_x += (2 * ratio) + 5
-  } else {
+  if(pos_x > (WIDTH - ratio)) {
     pos_x = ratio
     pos_y += (2 * ratio) + 5
   }
+
+  if(pos_y > (HEIGHT - ratio)) {
+    ctx.clearRect(0, 0, WIDTH, HEIGHT)
+    pos_y = ratio
+  }
+
+  ctx.beginPath()
+  ctx.arc(pos_x, pos_y, ratio, 0, 2 * Math.PI, true)
+
+  pos_x += (2 * ratio) + 5
 
   ctx.fillStyle = githubColors[data.type]
   ctx.fill()
