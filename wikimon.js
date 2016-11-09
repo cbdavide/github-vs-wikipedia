@@ -1,5 +1,7 @@
-var WebSocketClient = require('websocket').client
-var client = new WebSocketClient()
+'use strict'
+
+const WebSocketClient = require('websocket').client
+const client = new WebSocketClient()
 
 client.on('connectFailed', function (err) {
   console.log('Failed' + err)
@@ -9,7 +11,8 @@ client.on('connect', function (connection) {
   console.log('Connected socio.')
 
   connection.on('error', function (err) {
-    console.log('Connection error.')
+    console.error('Connection error.')
+    throw err
   })
 
   connection.on('message', function (message) {
